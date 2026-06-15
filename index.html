@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FreshSpawn — Live New Game Reviews</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+<style>
+:root{
+  --blue:#2f7fd1; --blue-dk:#1c5ea6; --aqua:#3aa6e0;
+  --cyan:#2f7fd1; --magenta:#d94f4f; --yellow:#f2b705; --green:#5fae2e; --purple:#8a6fd0; --orange:#e8852e;
+  --txt:#16324a; --muted:#5d7488;
+  --panel:#ffffff; --panel2:#eef4fb; --line:#b9cde0;
+  --px:'Trebuchet MS', Tahoma, Geneva, sans-serif;
+  --vt:Tahoma, Verdana, Arial, sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  color:var(--txt); font-family:var(--vt); font-size:15px; line-height:1.5;
+  background:#bcd3ea;
+  background-image:linear-gradient(to bottom, #eaf4fd 0%, #cfe2f4 45%, #b6cfe8 100%);
+  background-attachment:fixed; min-height:100vh; overflow-x:hidden;
+}
+.wrap{max-width:1080px;margin:0 auto;padding:0 18px 70px}
+
+/* header */
+header{margin:22px 0 6px;border-radius:14px;overflow:hidden;border:1px solid #6f9fcf;
+  background:linear-gradient(to bottom, #5aa0e0 0%, #2f7fd1 50%, #1c5ea6 51%, #2a72c0 100%);
+  box-shadow:0 2px 6px rgba(0,0,0,.25); position:relative; text-align:center; padding:24px 16px 20px}
+header::before{content:"";position:absolute;left:0;right:0;top:0;height:50%;
+  background:linear-gradient(to bottom, rgba(255,255,255,.45), rgba(255,255,255,0));pointer-events:none}
+.logo{font-family:var(--px);font-size:34px;font-weight:bold;letter-spacing:1px;color:#fff;
+  text-shadow:0 1px 0 rgba(0,0,0,.35), 0 0 14px rgba(255,255,255,.45);position:relative}
+.logo b{color:#ffd34d}
+.tag{font-size:14px;color:#dcebff;margin-top:8px;position:relative;text-shadow:0 1px 0 rgba(0,0,0,.25)}
+.marquee{margin-top:14px;border-radius:8px;overflow:hidden;white-space:nowrap;position:relative;
+  background:linear-gradient(to bottom,#fffef2,#fbe9a8);border:1px solid #e3c860;padding:5px 0;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.8)}
+.marquee span{display:inline-block;padding-left:100%;animation:scroll 28s linear infinite;color:#9a6b00;font-size:13px;font-weight:bold;letter-spacing:.5px}
+@keyframes scroll{0%{transform:translateX(0)}100%{transform:translateX(-100%)}}
+
+/* section titles */
+.section-title{font-family:var(--px);font-size:19px;font-weight:bold;color:var(--blue-dk);margin:30px 0 14px;
+  display:flex;align-items:center;gap:9px;border-bottom:2px solid #c4d8ec;padding-bottom:7px}
+.section-title::before{content:"\2605";color:var(--yellow);font-size:18px;text-shadow:0 1px 1px rgba(0,0,0,.2)}
+
+/* leaderboard */
+.lb{display:grid;grid-template-columns:repeat(5,1fr);gap:13px}
+.lb-card{background:linear-gradient(to bottom,#ffffff,#eef4fb);border:1px solid var(--line);border-radius:11px;padding:12px;cursor:pointer;
+  transition:transform .12s, box-shadow .12s; position:relative; overflow:hidden; box-shadow:0 1px 3px rgba(20,50,80,.18)}
+.lb-card:hover{transform:translateY(-3px);box-shadow:0 5px 14px rgba(47,127,209,.4);border-color:var(--blue)}
+.lb-rank{font-family:var(--px);font-size:13px;font-weight:bold;color:#fff;background:linear-gradient(to bottom,#7fb2e6,#2f7fd1);
+  display:inline-block;border-radius:20px;padding:2px 10px;box-shadow:inset 0 1px 0 rgba(255,255,255,.6)}
+.lb-cover{height:72px;border-radius:8px;margin:10px 0 8px;display:flex;align-items:center;justify-content:center;text-align:center;padding:5px;position:relative;overflow:hidden}
+.lb-cover::after{content:"";position:absolute;left:0;right:0;top:0;height:55%;background:linear-gradient(to bottom,rgba(255,255,255,.5),rgba(255,255,255,0))}
+.lb-cover span{font-family:var(--px);font-weight:bold;font-size:13px;line-height:1.1;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.45);position:relative;z-index:2}
+.lb-name{font-size:15px;font-weight:bold;line-height:1.15;min-height:34px;margin-top:2px}
+.lb-score{font-family:var(--px);font-size:18px;font-weight:bold;margin-top:4px}
+
+/* controls */
+.controls{display:flex;flex-wrap:wrap;gap:10px;margin:12px 0 6px;align-items:center}
+.controls input,.controls select{
+  font-family:var(--vt);font-size:14px;color:var(--txt);background:#fff;
+  border:1px solid #9bb6d4;border-radius:7px;padding:8px 11px;
+  box-shadow:inset 0 1px 2px rgba(20,50,80,.18)}
+.controls input{flex:1;min-width:200px}
+.controls input::placeholder{color:#9aabbd}
+.controls input:focus,.controls select:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(47,127,209,.25)}
+.controls select{cursor:pointer;background:linear-gradient(to bottom,#fff,#eef4fb)}
+.count{font-size:13px;color:var(--muted);margin:6px 2px 0;font-style:italic}
+
+/* grid */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(238px,1fr));gap:16px;margin-top:12px}
+.card{background:linear-gradient(to bottom,#ffffff,#f1f6fc);border:1px solid var(--line);border-radius:12px;overflow:hidden;cursor:pointer;
+  display:flex;flex-direction:column;transition:transform .12s, box-shadow .12s, border-color .12s; box-shadow:0 1px 3px rgba(20,50,80,.18)}
+.card:hover{transform:translateY(-4px);border-color:var(--blue);box-shadow:0 7px 18px rgba(47,127,209,.38)}
+.cover{height:122px;position:relative;display:flex;align-items:flex-end;padding:10px}
+.cover .gtitle{font-family:var(--px);font-weight:bold;font-size:16px;line-height:1.1;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.5);z-index:2}
+.cover::before{content:"";position:absolute;left:0;right:0;top:0;height:52%;
+  background:linear-gradient(to bottom, rgba(255,255,255,.5), rgba(255,255,255,0))}
+.badge{position:absolute;top:9px;right:9px;z-index:3;font-family:var(--px);font-weight:bold;font-size:14px;padding:4px 9px;border-radius:20px;
+  color:#fff;text-shadow:0 1px 1px rgba(0,0,0,.35);box-shadow:inset 0 1px 0 rgba(255,255,255,.5),0 1px 2px rgba(0,0,0,.3)}
+.card-body{padding:11px 13px 15px;flex:1;display:flex;flex-direction:column;gap:5px}
+.c-name{font-size:17px;font-weight:bold;line-height:1.1;color:var(--blue-dk)}
+.c-meta{font-size:12.5px;color:var(--muted)}
+.tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:3px}
+.tag-pill{font-size:11.5px;padding:2px 9px;border-radius:20px;background:linear-gradient(to bottom,#eef6ff,#d8e8f8);border:1px solid #aecbe8;color:var(--blue-dk)}
+.upc{background:linear-gradient(to bottom,#fff0f0,#fbd9d9);border-color:#e7a9a9;color:#b23636}
+
+/* modal */
+.overlay{position:fixed;inset:0;background:rgba(20,40,70,.55);z-index:1000;display:none;align-items:flex-start;justify-content:center;padding:40px 16px;overflow-y:auto}
+.overlay.on{display:flex}
+.modal{max-width:720px;width:100%;background:#fff;border:1px solid #6f9fcf;border-radius:14px;
+  box-shadow:0 12px 40px rgba(10,30,60,.5);overflow:hidden;animation:pop .16s ease}
+@keyframes pop{from{transform:scale(.96);opacity:0}to{transform:scale(1);opacity:1}}
+.m-hero{height:150px;position:relative;display:flex;align-items:flex-end;padding:18px}
+.m-hero::before{content:"";position:absolute;left:0;right:0;top:0;height:50%;background:linear-gradient(to bottom,rgba(255,255,255,.5),rgba(255,255,255,0))}
+.m-hero .gtitle{font-family:var(--px);font-weight:bold;font-size:24px;line-height:1.1;color:#fff;text-shadow:0 2px 4px rgba(0,0,0,.5);position:relative;z-index:2}
+.m-close{position:absolute;top:13px;right:15px;font-family:var(--px);font-weight:bold;font-size:14px;color:#fff;
+  background:linear-gradient(to bottom,#e57878,#cf3a3a);border:1px solid #b02d2d;border-radius:8px;padding:6px 11px;cursor:pointer;z-index:4;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.4)}
+.m-close:hover{filter:brightness(1.07)}
+.m-body{padding:20px 22px 26px}
+.m-top{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:flex-start}
+.m-name{font-family:var(--px);font-size:23px;font-weight:bold;line-height:1.15;color:var(--blue-dk);flex:1;min-width:230px}
+.m-scorebox{text-align:center;border-radius:11px;padding:9px 16px;min-width:94px;color:#fff;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.45),0 1px 3px rgba(0,0,0,.25)}
+.m-scorebox .n{font-family:var(--px);font-size:26px;font-weight:bold;text-shadow:0 1px 2px rgba(0,0,0,.3)}
+.m-scorebox .l{font-size:11.5px;margin-top:4px;opacity:.95}
+.m-meta{display:flex;flex-wrap:wrap;gap:7px;margin:15px 0}
+.consensus{font-size:15.5px;line-height:1.5;margin:14px 0;color:var(--txt);background:#f3f8fd;border-left:4px solid var(--yellow);padding:11px 14px;border-radius:0 8px 8px 0}
+.hl-title{font-family:var(--px);font-size:13px;font-weight:bold;color:var(--blue-dk);margin:18px 0 9px;text-transform:uppercase;letter-spacing:.5px}
+.hl{list-style:none;display:flex;flex-direction:column;gap:7px}
+.hl li{font-size:14.5px;line-height:1.35;padding-left:24px;position:relative}
+.hl li::before{content:"\2714";position:absolute;left:0;color:var(--green);font-weight:bold}
+.bars{margin-top:16px;display:flex;flex-direction:column;gap:9px}
+.bar-row{display:flex;align-items:center;gap:10px}
+.bar-row .lbl{font-size:13px;width:110px;color:var(--muted)}
+.bar{flex:1;height:16px;background:#e6eef7;border-radius:9px;overflow:hidden;border:1px solid #c2d6ea;box-shadow:inset 0 1px 2px rgba(20,50,80,.15)}
+.bar i{display:block;height:100%;border-radius:9px;box-shadow:inset 0 1px 0 rgba(255,255,255,.5)}
+.bar-row .v{font-size:13px;font-weight:bold;width:38px;text-align:right}
+footer{text-align:center;color:var(--muted);font-size:12.5px;margin-top:42px;line-height:1.6;
+  background:rgba(255,255,255,.55);border:1px solid #c4d8ec;border-radius:10px;padding:14px}
+footer b{color:var(--blue-dk)}
+@media(max-width:780px){.lb{grid-template-columns:repeat(2,1fr)}.logo{font-size:24px}}
+.cover.has-img .gtitle,.m-hero.has-img .gtitle{background:rgba(10,28,52,.6);padding:4px 9px;border-radius:7px}
+.cover{background-size:cover;background-position:center}
+.lb-cover{background-size:cover;background-position:center}
+.lb-cover.has-img span{background:rgba(10,28,52,.6);padding:3px 7px;border-radius:6px}
+.m-hero{background-size:cover;background-position:center}
+.rate-box{background:#f3f8fd;border:1px solid #cfe0f0;border-radius:10px;padding:12px 15px;margin:16px 0}
+.rate-title{font-family:var(--px);font-weight:bold;font-size:13px;color:var(--blue-dk);margin-bottom:7px;text-transform:uppercase;letter-spacing:.5px}
+.stars{display:flex;gap:3px}
+.star{cursor:pointer;font-size:28px;line-height:1;color:#c4d2e0;transition:transform .08s,color .08s;user-select:none}
+.star:hover{transform:scale(1.18)}
+.star.on{color:#f2b705;text-shadow:0 1px 2px rgba(0,0,0,.2)}
+.pr{font-size:12.5px;color:var(--muted);margin-top:9px}
+.about{font-size:14px;line-height:1.6;color:var(--txt)}
+.m-scorebox .n{color:#fff}
+
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="logo">Fresh<b>Spawn</b></div>
+    <div class="tag">// new game releases &amp; reviews &mdash; 2025&ndash;2026 //</div>
+    <div class="marquee"><span id="ticker">loading the latest drops...</span></div>
+  </header>
+
+  <div class="section-title">top rated</div>
+  <div class="lb" id="leaderboard"></div>
+
+  <div class="section-title">the library</div>
+  <div class="controls">
+    <input id="search" type="text" placeholder="search games, studios, genres...">
+    <select id="genre"><option value="">all genres</option></select>
+    <select id="status"><option value="">all status</option><option value="released">released</option><option value="upcoming">upcoming</option></select>
+    <select id="sort">
+      <option value="score">sort: score &darr;</option>
+      <option value="date">sort: newest</option>
+      <option value="name">sort: A&ndash;Z</option>
+    </select>
+  </div>
+  <div class="count" id="count"></div>
+  <div class="grid" id="grid"></div>
+
+  <footer>
+    Live game data &amp; cover art powered by <b><a href="https://rawg.io" target="_blank" rel="noopener" style="color:var(--blue-dk)">RAWG</a></b>.
+    Your personal star ratings are saved privately in your browser. &middot; FreshSpawn
+  </footer>
+</div>
+
+<div class="overlay" id="overlay"><div class="modal" id="modal"></div></div>
+
+<script>
+const FUNC='/.netlify/functions/games';
+const NOW=new Date();
+const PLAT={'PlayStation 5':'PS5','PlayStation 4':'PS4','PlayStation 3':'PS3','Xbox Series S/X':'Xbox X|S','Xbox One':'Xbox One','Xbox 360':'X360','Nintendo Switch':'Switch','PC':'PC','macOS':'Mac','Linux':'Linux','iOS':'iOS','Android':'Android'};
+function splat(n){return PLAT[n]||n;}
+
+const grid=document.getElementById('grid'),lb=document.getElementById('leaderboard'),
+ search=document.getElementById('search'),genreSel=document.getElementById('genre'),
+ statusSel=document.getElementById('status'),sortSel=document.getElementById('sort'),
+ countEl=document.getElementById('count'),ticker=document.getElementById('ticker');
+
+const PAL=["#3a9ee0","#2f7fd1","#5fae2e","#8a6fd0","#22b0a6","#9ccc3a","#e8852e","#d94f4f"];
+function art(t){let h=0;for(let i=0;i<t.length;i++)h=(h*31+t.charCodeAt(i))>>>0;
+  const a=PAL[h%PAL.length],b=PAL[(h>>3)%PAL.length],ang=(h%4)*45;
+  return `linear-gradient(${ang}deg, ${a}, ${b})`;}
+function scoreColor(s){if(s==null)return "var(--purple)";if(s>=90)return "var(--green)";if(s>=80)return "var(--blue)";if(s>=70)return "var(--orange)";return "var(--magenta)";}
+function fmtDate(d){if(!d)return 'TBA';const x=new Date(d+'T00:00');if(isNaN(x))return 'TBA';return x.toLocaleDateString('en-US',{year:'numeric',month:'short',day:'numeric'});}
+function isUpcoming(g){return !g.date || new Date(g.date+'T00:00')>NOW;}
+function coverStyle(g){return g.cover?`background-image:url('${g.cover}')`:`background:${art(g.t)}`;}
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function stripHtml(s){return String(s||'').replace(/<[^>]*>/g,'').replace(/\s+/g,' ');}
+function firstSentences(s,n){const m=s.match(/[^.!?]+[.!?]+/g);return m?m.slice(0,n).join(' ').trim():s.slice(0,200);}
+
+function ratings(){try{return JSON.parse(localStorage.getItem('nr_ratings')||'{}')}catch(e){return{}}}
+function myRating(id){return ratings()[id]||0;}
+function saveRating(id,n){const r=ratings();if((r[id]||0)===n)delete r[id];else r[id]=n;localStorage.setItem('nr_ratings',JSON.stringify(r));}
+
+function mapGame(g){return{
+  id:g.id,t:g.name,
+  genre:(g.genres&&g.genres[0]&&g.genres[0].name)||'Game',
+  plat:[...new Set((g.platforms||[]).map(p=>splat(p.platform.name)))].slice(0,6),
+  date:g.released||'',
+  score:(g.metacritic==null?null:g.metacritic),
+  cover:g.background_image||'',
+  pr:g.rating||0,prc:g.ratings_count||0,
+  ratings:g.ratings||[],
+  desc:g.description_raw||''};}
+
+async function api(path,params){
+  const qs=new URLSearchParams(params||{});qs.set('path',path);
+  const r=await fetch(FUNC+'?'+qs.toString());
+  if(!r.ok)throw new Error('HTTP '+r.status);
+  return r.json();}
+
+let GAMES=[],SRC='';
+async function load(){
+  countEl.textContent='Loading the latest games…';
+  const y=NOW.getFullYear(),today=NOW.toISOString().slice(0,10);
+  try{
+    const [top,soon]=await Promise.all([
+      api('games',{dates:(y-1)+'-01-01,'+y+'-12-31',ordering:'-metacritic',page_size:'40',exclude_additions:'true'}),
+      api('games',{dates:today+','+(y+1)+'-12-31',ordering:'-added',page_size:'12'})
+    ]);
+    const map={};
+    [...(top.results||[]),...(soon.results||[])].forEach(g=>{map[g.id]=mapGame(g);});
+    GAMES=Object.values(map);
+    if(!GAMES.length)throw new Error('empty');
+    SRC='Live data from RAWG';
+  }catch(e){
+    GAMES=SAMPLE.map(mapGame);
+    SRC='Preview mode (sample data) — deploy to Netlify with your RAWG key to go live';
+  }
+  buildGenres();setTicker();leaderboard();render();
+}
+
+function buildGenres(){
+  genreSel.innerHTML='<option value="">all genres</option>';
+  [...new Set(GAMES.map(g=>g.genre))].sort().forEach(g=>{const o=document.createElement('option');o.value=g;o.textContent=g.toLowerCase();genreSel.appendChild(o);});
+}
+function setTicker(){
+  ticker.textContent='NEW & TOP RATED:  '+GAMES.slice().sort((a,b)=>(b.score||0)-(a.score||0)).slice(0,10)
+    .map(g=>g.t.toUpperCase()+(g.score?' ['+g.score+']':'')).join('   •   ');
+}
+function leaderboard(){
+  const top=GAMES.filter(g=>g.score!=null).sort((a,b)=>b.score-a.score).slice(0,5);
+  lb.innerHTML=top.map((g,i)=>`<div class="lb-card" data-id="${g.id}">
+    <div class="lb-rank">#${i+1}</div>
+    <div class="lb-cover ${g.cover?'has-img':''}" style="${coverStyle(g)}"><span>${esc(g.t)}</span></div>
+    <div class="lb-name">${esc(g.t)}</div>
+    <div class="lb-score" style="color:${scoreColor(g.score)}">${g.score}</div></div>`).join('');
+}
+function render(){
+  const q=search.value.toLowerCase().trim(),gf=genreSel.value,sf=statusSel.value,so=sortSel.value;
+  let list=GAMES.filter(g=>{
+    const match=!q||g.t.toLowerCase().includes(q)||g.genre.toLowerCase().includes(q);
+    const gok=!gf||g.genre===gf;
+    const up=isUpcoming(g);
+    const sok=!sf||(sf==='upcoming'?up:!up);
+    return match&&gok&&sok;});
+  list.sort((a,b)=>{
+    if(so==='name')return a.t.localeCompare(b.t);
+    if(so==='date')return new Date(b.date||0)-new Date(a.date||0);
+    return (b.score==null?-1:b.score)-(a.score==null?-1:a.score);});
+  countEl.textContent=(SRC?SRC+'  ·  ':'')+list.length+' game'+(list.length!==1?'s':'')+' shown';
+  grid.innerHTML=list.map(g=>{
+    const up=isUpcoming(g),mine=myRating(g.id);
+    const badge=up?`<div class="badge" style="background:linear-gradient(to bottom,#c98bd6,#8a4fb0)">SOON</div>`
+      :g.score==null?`<div class="badge" style="background:linear-gradient(to bottom,#9fb0c0,#6e7f8f)">NR</div>`
+      :`<div class="badge" style="background:${scoreColor(g.score)}">${g.score}</div>`;
+    return `<div class="card" data-id="${g.id}">
+      <div class="cover ${g.cover?'has-img':''}" style="${coverStyle(g)}">${badge}<div class="gtitle">${esc(g.t)}</div></div>
+      <div class="card-body">
+        <div class="c-name">${esc(g.t)}</div>
+        <div class="c-meta">${esc(g.genre)} &middot; ${fmtDate(g.date)}</div>
+        <div class="tags"><span class="tag-pill">${esc(g.genre)}</span>
+          ${up?'<span class="tag-pill upc">upcoming</span>':''}
+          ${mine?`<span class="tag-pill" style="background:linear-gradient(to bottom,#fff7df,#ffe9a8);border-color:#e7cf7a;color:#8a6b00">&#9733; ${mine}/5</span>`:''}</div>
+      </div></div>`;}).join('');
+}
+
+function ratingsBars(rs){
+  const col={exceptional:'var(--green)',recommended:'var(--blue)',meh:'var(--orange)',skip:'var(--magenta)'};
+  return '<div class="bars">'+rs.map(r=>`<div class="bar-row"><span class="lbl">${esc(r.title)}</span><div class="bar"><i style="width:${Math.round(r.percent)}%;background:${col[r.title]||'var(--blue)'}"></i></div><span class="v">${Math.round(r.percent)}%</span></div>`).join('')+'</div>';
+}
+async function openModal(id){
+  const g=GAMES.find(x=>String(x.id)===String(id));if(!g)return;
+  const m=document.getElementById('modal');
+  m.innerHTML=`<div class="m-hero ${g.cover?'has-img':''}" style="${coverStyle(g)}"><button class="m-close" id="mclose">CLOSE</button><div class="gtitle">${esc(g.t)}</div></div><div class="m-body"><p style="color:var(--muted)">Loading details&hellip;</p></div>`;
+  document.getElementById('overlay').classList.add('on');
+  document.getElementById('mclose').onclick=closeModal;
+  let d={};
+  try{d=await api('games/'+g.id,{});}catch(e){}
+  renderModal(g,d);
+}
+function renderModal(g,d){
+  const up=isUpcoming(g);
+  const dev=(d.developers&&d.developers.map(x=>x.name).join(', '))||'';
+  const desc=stripHtml(d.description_raw||g.desc||'').trim();
+  const consensus=desc?firstSentences(desc,2):(up?'Not yet released — full details and reviews to come.':'');
+  const breakdown=(g.ratings&&g.ratings.length)?ratingsBars(g.ratings):'';
+  const scoreTxt=up?'SOON':(g.score==null?'NR':g.score);
+  const sc=scoreColor(g.score),mine=myRating(g.id);
+  const stars=[1,2,3,4,5].map(n=>`<span class="star ${n<=mine?'on':''}" data-star="${n}" data-gid="${g.id}">&#9733;</span>`).join('');
+  const pr=g.prc?`RAWG community score: <b>${g.pr.toFixed(1)}/5</b> from ${g.prc.toLocaleString()} ratings`:'No community ratings yet';
+  document.getElementById('modal').innerHTML=`
+    <div class="m-hero ${g.cover?'has-img':''}" style="${coverStyle(g)}"><button class="m-close" id="mclose">CLOSE</button><div class="gtitle">${esc(g.t)}</div></div>
+    <div class="m-body">
+      <div class="m-top"><div class="m-name">${esc(g.t)}</div>
+        <div class="m-scorebox" style="background:${sc}"><div class="n">${scoreTxt}</div><div class="l">${up?'unreleased':(g.score==null?'no score':'metascore')}</div></div></div>
+      <div class="m-meta"><span class="tag-pill">${esc(g.genre)}</span>${dev?`<span class="tag-pill">${esc(dev)}</span>`:''}<span class="tag-pill">${fmtDate(g.date)}</span>${g.plat.map(p=>`<span class="tag-pill" style="background:linear-gradient(to bottom,#efe7fb,#ddd0f5);border-color:#c3b0e8;color:#5a3f9e">${esc(p)}</span>`).join('')}</div>
+      ${consensus?`<div class="consensus">${esc(consensus)}</div>`:''}
+      <div class="rate-box"><div class="rate-title">Rate it yourself</div><div class="stars">${stars}</div><div class="pr">${pr}</div></div>
+      ${breakdown?`<div class="hl-title">Player review breakdown</div>${breakdown}`:''}
+      ${desc?`<div class="hl-title">About</div><div class="about">${esc(desc).slice(0,900)}${desc.length>900?'&hellip;':''}</div>`:''}
+    </div>`;
+  document.getElementById('mclose').onclick=closeModal;
+}
+function closeModal(){document.getElementById('overlay').classList.remove('on');}
+
+document.addEventListener('click',e=>{
+  const st=e.target.closest('[data-star]');
+  if(st){const id=st.dataset.gid,n=+st.dataset.star;saveRating(id,n);
+    const mine=myRating(id);
+    document.querySelectorAll('.stars .star').forEach(s=>s.classList.toggle('on',+s.dataset.star<=mine));
+    render();return;}
+  const c=e.target.closest('[data-id]');
+  if(c){openModal(c.dataset.id);return;}
+  if(e.target.id==='overlay')closeModal();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
+[search,genreSel,statusSel,sortSel].forEach(el=>el.addEventListener('input',render));
+
+const SAMPLE=[
+ {id:1,name:'Hades II',genres:[{name:'Roguelike'}],platforms:[{platform:{name:'PC'}},{platform:{name:'Nintendo Switch'}},{platform:{name:'PlayStation 5'}}],released:'2025-09-25',metacritic:95,background_image:'',rating:4.7,ratings_count:5400,ratings:[{title:'exceptional',percent:78},{title:'recommended',percent:18},{title:'meh',percent:3},{title:'skip',percent:1}],description_raw:'The first-ever sequel from Supergiant Games builds on the original god-like rogue-like dungeon crawler. Battle beyond the Underworld using dark sorcery to take on the Titan of Time. Crowned Metacritic Game of the Year 2025.'},
+ {id:2,name:'Mina the Hollower',genres:[{name:'Action-Adventure'}],platforms:[{platform:{name:'PC'}},{platform:{name:'PlayStation 5'}},{platform:{name:'Xbox Series S/X'}}],released:'2026-05-31',metacritic:92,background_image:'',rating:4.5,ratings_count:1200,ratings:[{title:'exceptional',percent:64},{title:'recommended',percent:28},{title:'meh',percent:6},{title:'skip',percent:2}],description_raw:'From the makers of Shovel Knight, a Game Boy-inspired top-down action-adventure starring Mina, a Hollower with a trusty whip. Became 2026 indie darling.'},
+ {id:3,name:'Forza Horizon 6',genres:[{name:'Racing'}],platforms:[{platform:{name:'PC'}},{platform:{name:'Xbox Series S/X'}}],released:'2026-05-12',metacritic:91,background_image:'',rating:4.4,ratings_count:2100,ratings:[{title:'exceptional',percent:58},{title:'recommended',percent:33},{title:'meh',percent:7},{title:'skip',percent:2}],description_raw:'The open-world racer returns with a stunning new map, a massive car roster, and seamless multiplayer.'},
+ {id:4,name:'Resident Evil Requiem',genres:[{name:'Survival Horror'}],platforms:[{platform:{name:'PC'}},{platform:{name:'PlayStation 5'}},{platform:{name:'Xbox Series S/X'}}],released:'2026-02-27',metacritic:89,background_image:'',rating:4.3,ratings_count:3300,ratings:[{title:'exceptional',percent:51},{title:'recommended',percent:36},{title:'meh',percent:9},{title:'skip',percent:4}],description_raw:'Capcom’s horror engine roars back with one of the tensest entries in years.'},
+ {id:5,name:'Saros',genres:[{name:'Roguelike'}],platforms:[{platform:{name:'PlayStation 5'}}],released:'2026-04-18',metacritic:88,background_image:'',rating:4.2,ratings_count:900,ratings:[{title:'exceptional',percent:49},{title:'recommended',percent:34},{title:'meh',percent:12},{title:'skip',percent:5}],description_raw:'From the Returnal studio Housemarque, a punishing sci-fi roguelike set on a shifting alien world.'},
+ {id:6,name:'Ghost of Yotei',genres:[{name:'Action-Adventure'}],platforms:[{platform:{name:'PlayStation 5'}}],released:'2025-10-02',metacritic:88,background_image:'',rating:4.6,ratings_count:6100,ratings:[{title:'exceptional',percent:62},{title:'recommended',percent:29},{title:'meh',percent:6},{title:'skip',percent:3}],description_raw:'Sucker Punch’s open-world samurai epic with a peerless combat system and breathtaking vistas.'},
+ {id:7,name:'Clair Obscur: Expedition 33',genres:[{name:'RPG'}],platforms:[{platform:{name:'PC'}},{platform:{name:'PlayStation 5'}},{platform:{name:'Xbox Series S/X'}}],released:'2025-04-24',metacritic:92,background_image:'',rating:4.7,ratings_count:7200,ratings:[{title:'exceptional',percent:75},{title:'recommended',percent:19},{title:'meh',percent:4},{title:'skip',percent:2}],description_raw:'A debut studio’s stunning turn-based RPG with a reactive real-time twist and a haunting Belle Epoque world.'},
+ {id:8,name:'Marvel’s Wolverine',genres:[{name:'Action-Adventure'}],platforms:[{platform:{name:'PlayStation 5'}}],released:'2026-09-15',metacritic:null,background_image:'',rating:0,ratings_count:0,ratings:[],description_raw:'Insomniac Games’ brutal, mature take on Logan. Launching exclusively on PlayStation 5.'},
+ {id:9,name:'Grand Theft Auto VI',genres:[{name:'Action-Adventure'}],platforms:[{platform:{name:'PlayStation 5'}},{platform:{name:'Xbox Series S/X'}}],released:'2026-11-19',metacritic:null,background_image:'',rating:0,ratings_count:0,ratings:[],description_raw:'Rockstar returns to a reimagined Vice City with dual protagonists in one of the most anticipated games ever made.'},
+ {id:10,name:'007 First Light',genres:[{name:'Action-Adventure'}],platforms:[{platform:{name:'PC'}},{platform:{name:'PlayStation 5'}},{platform:{name:'Xbox Series S/X'}}],released:'2026-08-27',metacritic:null,background_image:'',rating:0,ratings_count:0,ratings:[],description_raw:'The Hitman studio IO Interactive tells an original James Bond origin story.'}
+];
+
+load();
+
+</script>
+</body>
+</html
