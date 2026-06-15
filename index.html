@@ -21,7 +21,6 @@ body{color:var(--txt);font-family:var(--vt);font-size:15px;line-height:1.5;backg
   background-image:radial-gradient(760px 320px at 50% -16%, rgba(224,118,42,.06), transparent 72%);
   background-repeat:no-repeat;min-height:100vh;overflow-x:hidden}
 .wrap{max-width:1100px;margin:0 auto;padding:0 18px 70px}
-
 /* header */
 header{padding:30px 0 18px;margin-bottom:20px;border-bottom:1px solid var(--border)}
 .logo{font-family:var(--px);font-size:38px;font-weight:700;letter-spacing:-1px;color:var(--txt);line-height:1;display:flex;align-items:center}
@@ -32,11 +31,9 @@ header{padding:30px 0 18px;margin-bottom:20px;border-bottom:1px solid var(--bord
   border:1px solid var(--border);border-radius:10px;padding:7px 0}
 .marquee span{display:inline-block;padding-left:100%;animation:scroll 30s linear infinite;font-family:var(--mono);font-weight:700;font-size:13px;letter-spacing:.5px}
 @keyframes scroll{0%{transform:translateX(0)}100%{transform:translateX(-100%)}}
-
 /* section titles */
 .section-title{font-family:var(--px);font-size:21px;font-weight:700;color:var(--txt);margin:32px 0 14px;display:flex;align-items:center;gap:11px}
 .section-title::before{content:"";width:14px;height:14px;background:var(--acc);border-radius:3px;display:inline-block}
-
 /* leaderboard */
 .lb{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
 .lb-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:13px;cursor:pointer;position:relative;
@@ -49,7 +46,6 @@ header{padding:30px 0 18px;margin-bottom:20px;border-bottom:1px solid var(--bord
 .lb-cover span{font-family:var(--px);font-weight:700;font-size:13px;line-height:1.1;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.8)}
 .lb-name{font-size:14px;font-weight:700;line-height:1.15;min-height:36px;margin-top:4px;color:var(--txt)}
 .lb-score{font-family:var(--px);font-size:20px;font-weight:700;margin-top:2px}
-
 /* controls */
 .controls{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:6px}
 .controls input,.controls select{font-family:var(--vt);font-size:14px;color:var(--txt);background:var(--surface);
@@ -59,7 +55,6 @@ header{padding:30px 0 18px;margin-bottom:20px;border-bottom:1px solid var(--bord
 .controls input:focus,.controls select:focus{outline:none;border-color:var(--acc);box-shadow:0 0 0 3px var(--acc-soft)}
 .controls select{cursor:pointer}
 .count{font-family:var(--mono);font-size:12.5px;color:var(--muted);margin:11px 2px 0}
-
 /* grid */
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(238px,1fr));gap:18px;margin-top:14px}
 .card{background:var(--surface);border:1px solid var(--border);border-radius:16px;overflow:hidden;cursor:pointer;
@@ -75,7 +70,6 @@ header{padding:30px 0 18px;margin-bottom:20px;border-bottom:1px solid var(--bord
 .tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:5px}
 .tag-pill{font-family:var(--mono);font-size:11px;padding:2px 9px;background:var(--surface2);border:1px solid var(--border);border-radius:20px;color:var(--muted)}
 .upc{background:var(--acc-soft);border-color:var(--acc);color:var(--acc);font-weight:700}
-
 /* modal */
 .overlay{position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:1000;display:none;align-items:flex-start;justify-content:center;padding:40px 16px;overflow-y:auto}
 .overlay.on{display:flex}
@@ -111,7 +105,6 @@ footer{font-family:var(--mono);text-align:center;color:var(--muted);font-size:12
   background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:15px}
 footer a{color:var(--acc)}
 footer b{color:var(--txt)}
-
 /* media + added components */
 .cover.has-img .gtitle,.m-hero.has-img .gtitle{background:rgba(0,0,0,.6);padding:3px 8px;border-radius:6px}
 .cover{background-size:cover;background-position:center}
@@ -135,10 +128,8 @@ footer b{color:var(--txt)}
     <div class="tag">// new game releases &amp; reviews &mdash; 2025&ndash;2026 //</div>
     <div class="marquee"><span id="ticker">loading the latest drops...</span></div>
   </header>
-
   <div class="section-title">top rated</div>
   <div class="lb" id="leaderboard"></div>
-
   <div class="section-title">the library</div>
   <div class="controls">
     <input id="search" type="text" placeholder="search games, studios, genres...">
@@ -152,26 +143,21 @@ footer b{color:var(--txt)}
   </div>
   <div class="count" id="count"></div>
   <div class="grid" id="grid"></div>
-
   <footer>
-    Live game data &amp; cover art powered by <b><a href="https://rawg.io" target="_blank" rel="noopener" style="color:var(--blue-dk)">RAWG</a></b>.
+    Live game data &amp; cover art powered by <b><a href="https://rawg.io" target="_blank" rel="noopener" style="color:var(--acc)">RAWG</a></b>.
     Your personal star ratings are saved privately in your browser. &middot; FreshSpawn
   </footer>
 </div>
-
 <div class="overlay" id="overlay"><div class="modal" id="modal"></div></div>
-
 <script>
 const FUNC='/.netlify/functions/games';
 const NOW=new Date();
 const PLAT={'PlayStation 5':'PS5','PlayStation 4':'PS4','PlayStation 3':'PS3','Xbox Series S/X':'Xbox X|S','Xbox One':'Xbox One','Xbox 360':'X360','Nintendo Switch':'Switch','PC':'PC','macOS':'Mac','Linux':'Linux','iOS':'iOS','Android':'Android'};
 function splat(n){return PLAT[n]||n;}
-
 const grid=document.getElementById('grid'),lb=document.getElementById('leaderboard'),
  search=document.getElementById('search'),genreSel=document.getElementById('genre'),
  statusSel=document.getElementById('status'),sortSel=document.getElementById('sort'),
  countEl=document.getElementById('count'),ticker=document.getElementById('ticker');
-
 const PAL=["#ff8c2b","#ff6a00","#e0762a","#c2632a","#8a5230","#caa46a","#a86a2e","#ffb24d"];
 function art(t){let h=0;for(let i=0;i<t.length;i++)h=(h*31+t.charCodeAt(i))>>>0;
   const a=PAL[h%PAL.length],b=PAL[(h>>3)%PAL.length],ang=(h%4)*45;
@@ -183,35 +169,31 @@ function coverStyle(g){return g.cover?`background-image:url('${g.cover}')`:`back
 function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
 function stripHtml(s){return String(s||'').replace(/<[^>]*>/g,'').replace(/\s+/g,' ');}
 function firstSentences(s,n){const m=s.match(/[^.!?]+[.!?]+/g);return m?m.slice(0,n).join(' ').trim():s.slice(0,200);}
-
 function ratings(){try{return JSON.parse(localStorage.getItem('nr_ratings')||'{}')}catch(e){return{}}}
 function myRating(id){return ratings()[id]||0;}
 function saveRating(id,n){const r=ratings();if((r[id]||0)===n)delete r[id];else r[id]=n;localStorage.setItem('nr_ratings',JSON.stringify(r));}
-
 function mapGame(g){return{
   id:g.id,t:g.name,
   genre:(g.genres&&g.genres[0]&&g.genres[0].name)||'Game',
   plat:[...new Set((g.platforms||[]).map(p=>splat(p.platform.name)))].slice(0,6),
   date:g.released||'',
-  score:(g.metacritic==null?null:g.metacritic),
+  score:(g.metacritic!=null?g.metacritic:(g.rating?Math.round(g.rating*20):null)),
   cover:g.background_image||'',
   pr:g.rating||0,prc:g.ratings_count||0,
   ratings:g.ratings||[],
   desc:g.description_raw||''};}
-
 async function api(path,params){
   const qs=new URLSearchParams(params||{});qs.set('path',path);
   const r=await fetch(FUNC+'?'+qs.toString());
   if(!r.ok)throw new Error('HTTP '+r.status);
   return r.json();}
-
 let GAMES=[],SRC='';
 async function load(){
   countEl.textContent='Loading the latest games…';
   const y=NOW.getFullYear(),today=NOW.toISOString().slice(0,10);
   try{
     const [top,soon]=await Promise.all([
-      api('games',{dates:(y-1)+'-01-01,'+y+'-12-31',ordering:'-metacritic',page_size:'40',exclude_additions:'true'}),
+      api('games',{dates:(y-2)+'-01-01,'+today,ordering:'-added',page_size:'40'}),
       api('games',{dates:today+','+(y+1)+'-12-31',ordering:'-added',page_size:'12'})
     ]);
     const map={};
@@ -225,7 +207,6 @@ async function load(){
   }
   buildGenres();setTicker();leaderboard();render();
 }
-
 function buildGenres(){
   genreSel.innerHTML='<option value="">all genres</option>';
   [...new Set(GAMES.map(g=>g.genre))].sort().forEach(g=>{const o=document.createElement('option');o.value=g;o.textContent=g.toLowerCase();genreSel.appendChild(o);});
@@ -270,7 +251,6 @@ function render(){
           ${mine?`<span class="tag-pill" style="background:rgba(255,140,43,.16);border:1px solid #ff8c2b;color:#ff8c2b;font-weight:700">&#9733; ${mine}/5</span>`:''}</div>
       </div></div>`;}).join('');
 }
-
 function ratingsBars(rs){
   const col={exceptional:'var(--green)',recommended:'var(--blue)',meh:'var(--orange)',skip:'var(--magenta)'};
   return '<div class="bars">'+rs.map(r=>`<div class="bar-row"><span class="lbl">${esc(r.title)}</span><div class="bar"><i style="width:${Math.round(r.percent)}%;background:${col[r.title]||'var(--blue)'}"></i></div><span class="v">${Math.round(r.percent)}%</span></div>`).join('')+'</div>';
@@ -299,7 +279,7 @@ function renderModal(g,d){
     <div class="m-titlebar"><span>game_info.exe</span><button class="m-close" id="mclose">&#10005;</button></div><div class="m-hero ${g.cover?'has-img':''}" style="${coverStyle(g)}"><div class="gtitle">${esc(g.t)}</div></div>
     <div class="m-body">
       <div class="m-top"><div class="m-name">${esc(g.t)}</div>
-        <div class="m-scorebox" style="background:${sc}"><div class="n">${scoreTxt}</div><div class="l">${up?'unreleased':(g.score==null?'no score':'metascore')}</div></div></div>
+        <div class="m-scorebox" style="background:${sc}"><div class="n">${scoreTxt}</div><div class="l">${up?'unreleased':(g.score==null?'no score':'score /100')}</div></div></div>
       <div class="m-meta"><span class="tag-pill">${esc(g.genre)}</span>${dev?`<span class="tag-pill">${esc(dev)}</span>`:''}<span class="tag-pill">${fmtDate(g.date)}</span>${g.plat.map(p=>`<span class="tag-pill" style="background:#1c1c22;border:1px solid #3b3b45;color:#c8c7cf">${esc(p)}</span>`).join('')}</div>
       ${consensus?`<div class="consensus">${esc(consensus)}</div>`:''}
       <div class="rate-box"><div class="rate-title">Rate it yourself</div><div class="stars">${stars}</div><div class="pr">${pr}</div></div>
@@ -309,7 +289,6 @@ function renderModal(g,d){
   document.getElementById('mclose').onclick=closeModal;
 }
 function closeModal(){document.getElementById('overlay').classList.remove('on');}
-
 document.addEventListener('click',e=>{
   const st=e.target.closest('[data-star]');
   if(st){const id=st.dataset.gid,n=+st.dataset.star;saveRating(id,n);
@@ -321,10 +300,9 @@ document.addEventListener('click',e=>{
   if(e.target.id==='overlay')closeModal();});
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
 [search,genreSel,statusSel,sortSel].forEach(el=>el.addEventListener('input',render));
-
 const SAMPLE=[
- {id:1,name:'Hades II',genres:[{name:'Roguelike'}],platforms:[{platform:{name:'PC'}},{platform:{name:'Nintendo Switch'}},{platform:{name:'PlayStation 5'}}],released:'2025-09-25',metacritic:95,background_image:'',rating:4.7,ratings_count:5400,ratings:[{title:'exceptional',percent:78},{title:'recommended',percent:18},{title:'meh',percent:3},{title:'skip',percent:1}],description_raw:'The first-ever sequel from Supergiant Games builds on the original god-like rogue-like dungeon crawler. Battle beyond the Underworld using dark sorcery to take on the Titan of Time. Crowned Metacritic Game of the Year 2025.'},
- {id:2,name:'Mina the Hollower',genres:[{name:'Action-Adventure'}],platforms:[{platform:{name:'PC'}},{platform:{name:'PlayStation 5'}},{platform:{name:'Xbox Series S/X'}}],released:'2026-05-31',metacritic:92,background_image:'',rating:4.5,ratings_count:1200,ratings:[{title:'exceptional',percent:64},{title:'recommended',percent:28},{title:'meh',percent:6},{title:'skip',percent:2}],description_raw:'From the makers of Shovel Knight, a Game Boy-inspired top-down action-adventure starring Mina, a Hollower with a trusty whip. Became 2026 indie darling.'},
+ {id:1,name:'Hades II',genres:[{name:'Roguelike'}],platforms:[{platform:{name:'PC'}},{platform:{name:'Nintendo Switch'}},{platform:{name:'PlayStation 5'}}],released:'2025-09-25',metacritic:95,background_image:'',rating:4.7,ratings_count:5400,ratings:[{title:'exceptional',percent:78},{title:'recommended',percent:18},{title:'meh',percent:3},{title:'skip',percent:1}],description_raw:'The first-ever sequel from Supergiant Games builds on the original god-like rogue-like dungeon crawler. Crowned Metacritic Game of the Year 2025.'},
+ {id:2,name:'Mina the Hollower',genres:[{name:'Action-Adventure'}],platforms:[{platform:{name:'PC'}},{platform:{name:'PlayStation 5'}},{platform:{name:'Xbox Series S/X'}}],released:'2026-05-31',metacritic:92,background_image:'',rating:4.5,ratings_count:1200,ratings:[{title:'exceptional',percent:64},{title:'recommended',percent:28},{title:'meh',percent:6},{title:'skip',percent:2}],description_raw:'From the makers of Shovel Knight, a Game Boy-inspired top-down action-adventure starring Mina, a Hollower with a trusty whip.'},
  {id:3,name:'Forza Horizon 6',genres:[{name:'Racing'}],platforms:[{platform:{name:'PC'}},{platform:{name:'Xbox Series S/X'}}],released:'2026-05-12',metacritic:91,background_image:'',rating:4.4,ratings_count:2100,ratings:[{title:'exceptional',percent:58},{title:'recommended',percent:33},{title:'meh',percent:7},{title:'skip',percent:2}],description_raw:'The open-world racer returns with a stunning new map, a massive car roster, and seamless multiplayer.'},
  {id:4,name:'Resident Evil Requiem',genres:[{name:'Survival Horror'}],platforms:[{platform:{name:'PC'}},{platform:{name:'PlayStation 5'}},{platform:{name:'Xbox Series S/X'}}],released:'2026-02-27',metacritic:89,background_image:'',rating:4.3,ratings_count:3300,ratings:[{title:'exceptional',percent:51},{title:'recommended',percent:36},{title:'meh',percent:9},{title:'skip',percent:4}],description_raw:'Capcom’s horror engine roars back with one of the tensest entries in years.'},
  {id:5,name:'Saros',genres:[{name:'Roguelike'}],platforms:[{platform:{name:'PlayStation 5'}}],released:'2026-04-18',metacritic:88,background_image:'',rating:4.2,ratings_count:900,ratings:[{title:'exceptional',percent:49},{title:'recommended',percent:34},{title:'meh',percent:12},{title:'skip',percent:5}],description_raw:'From the Returnal studio Housemarque, a punishing sci-fi roguelike set on a shifting alien world.'},
@@ -334,9 +312,7 @@ const SAMPLE=[
  {id:9,name:'Grand Theft Auto VI',genres:[{name:'Action-Adventure'}],platforms:[{platform:{name:'PlayStation 5'}},{platform:{name:'Xbox Series S/X'}}],released:'2026-11-19',metacritic:null,background_image:'',rating:0,ratings_count:0,ratings:[],description_raw:'Rockstar returns to a reimagined Vice City with dual protagonists in one of the most anticipated games ever made.'},
  {id:10,name:'007 First Light',genres:[{name:'Action-Adventure'}],platforms:[{platform:{name:'PC'}},{platform:{name:'PlayStation 5'}},{platform:{name:'Xbox Series S/X'}}],released:'2026-08-27',metacritic:null,background_image:'',rating:0,ratings_count:0,ratings:[],description_raw:'The Hitman studio IO Interactive tells an original James Bond origin story.'}
 ];
-
 load();
-
 </script>
 </body>
-</html
+</html>
