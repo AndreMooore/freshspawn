@@ -212,11 +212,11 @@ function buildGenres(){
   [...new Set(GAMES.map(g=>g.genre))].sort().forEach(g=>{const o=document.createElement('option');o.value=g;o.textContent=g.toLowerCase();genreSel.appendChild(o);});
 }
 function setTicker(){
-  ticker.textContent='NEW & TOP RATED:  '+GAMES.slice().sort((a,b)=>(b.score||0)-(a.score||0)).slice(0,10)
+  ticker.textContent='NEW & TOP RATED:  '+GAMES.filter(g=>!isUpcoming(g)).sort((a,b)=>(b.score||0)-(a.score||0)).slice(0,10)
     .map(g=>g.t.toUpperCase()+(g.score?' ['+g.score+']':'')).join('   •   ');
 }
 function leaderboard(){
-  const top=GAMES.filter(g=>g.score!=null).sort((a,b)=>b.score-a.score).slice(0,5);
+  const top=GAMES.filter(g=>g.score!=null&&!isUpcoming(g)).sort((a,b)=>b.score-a.score).slice(0,5);
   lb.innerHTML=top.map((g,i)=>`<div class="lb-card" data-id="${g.id}">
     <div class="lb-rank">#${i+1}</div>
     <div class="lb-cover ${g.cover?'has-img':''}" style="${coverStyle(g)}"><span>${esc(g.t)}</span></div>
@@ -234,7 +234,8 @@ function render(){
   list.sort((a,b)=>{
     if(so==='name')return a.t.localeCompare(b.t);
     if(so==='date')return new Date(b.date||0)-new Date(a.date||0);
-    return (b.score==null?-1:b.score)-(a.score==null?-1:a.score);});
+    const es=g=>isUpcoming(g)?-1:(g.score==null?-1:g.score);
+    return es(b)-es(a);});
   countEl.textContent=(SRC?SRC+'  ·  ':'')+list.length+' game'+(list.length!==1?'s':'')+' shown';
   grid.innerHTML=list.map(g=>{
     const up=isUpcoming(g),mine=myRating(g.id);
